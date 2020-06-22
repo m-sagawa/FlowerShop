@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<img alt="FlowerShop" src="FlowerShop.png">
+	<img alt="FlowerShop" src="FlowerShop.png" width=200 height=50>
 	<%
 	String message = (String)request.getAttribute("message");
 	if(message == null){

@@ -5,14 +5,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>顧客ホーム画面</title>
+<title>商品削除画面</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<jsp:include page="CustomerHeader.jsp">
+	<jsp:include page="AdminHeader.jsp">
 		<jsp:param value="header" name="deader" />
 	</jsp:include>
 
+	削除する項目を選んでください<br>
 	<form action="sort-serch-servlet" method="post">
 		検索 <input type="text" name="sarch">
 		並び替え <select name="sort">
@@ -30,21 +31,13 @@
 		String goodsImg = gb.getGoodsImg();
 	%>
 		<img alt="<%=goodsName %>" src="flower/<%=goodsImg %>" width=200 height=200><br>
-		【<%=goodsName %>】　<%=goodsPrice %>円<br>
-		<form action="cart-servlet" method="post">
-		<select name="goodsNumber">
-			<%
-			for(int i = 0; i <= 10; i++){
-			%>
-			<option value="<%=i %>"><%=i %></option>
-			<%
-			}
-			%>
-		</select>
-		<button name="goodsName" value="<%=goodsName %>">カートに入れる</button><br>
-		</form>
+		【<%=goodsName %>】　<%=goodsPrice %>円
+		<form action="delete-servlet" method="post">
+		<input type="checkbox" name="goodsName" value="<%=goodsName %>"><br>
 	<%
 	}
 	%>
+		<button name="conf" value="n">削除</button>
+		</form>
 </body>
 </html>

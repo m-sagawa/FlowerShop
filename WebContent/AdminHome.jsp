@@ -5,17 +5,23 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>顧客ホーム画面</title>
-<link rel="stylesheet" href="style.css">
+<title>管理者ホーム画面</title>
 </head>
 <body>
-	<jsp:include page="CustomerHeader.jsp">
+	<jsp:include page="AdminHeader.jsp">
 		<jsp:param value="header" name="deader" />
 	</jsp:include>
 
+	<%
+	String message = (String)request.getAttribute("message");
+	if(message == null){
+		message = "";
+	}
+	%>
+	<%=message %>
+
 	<form action="sort-serch-servlet" method="post">
-		検索 <input type="text" name="sarch">
-		並び替え <select name="sort">
+		検索 <input type="text" name="sarch"> 並び替え <select name="sort">
 			<option value=""></option>
 			<option value="goods_name">商品名</option>
 			<option value="goods_price">価格</option>
@@ -31,17 +37,8 @@
 	%>
 		<img alt="<%=goodsName %>" src="flower/<%=goodsImg %>" width=200 height=200><br>
 		【<%=goodsName %>】　<%=goodsPrice %>円<br>
-		<form action="cart-servlet" method="post">
-		<select name="goodsNumber">
-			<%
-			for(int i = 0; i <= 10; i++){
-			%>
-			<option value="<%=i %>"><%=i %></option>
-			<%
-			}
-			%>
-		</select>
-		<button name="goodsName" value="<%=goodsName %>">カートに入れる</button><br>
+		<form action="goods-update-servlet" method="post">
+		<button name="goodsName" value="<%=goodsName %>">変更</button><br>
 		</form>
 	<%
 	}

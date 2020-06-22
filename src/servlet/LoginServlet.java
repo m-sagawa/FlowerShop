@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import model.Dao;
 
@@ -41,22 +42,32 @@ public class LoginServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
+		HttpSession session = request.getSession();
 		String userID = request.getParameter("userID");
 		String userPASS = request.getParameter("userPASS");
 		String message = null;
 		String url = null;
+		String forward = null;
+		String status = "logout";
 
 		Dao dao = new Dao();
 		String loginType = dao.Login(userID, userPASS);
 		if(loginType.equals("admin")) {
-			url = "AdminHome.jsp";
+			url = "sort-serch-servlet";
+			forward = "AdminHome.jsp";
+			status = "login";
 		}else if (loginType.equals("customer")) {
 			url = "sort-serch-servlet";
+			forward = "CustomerHome.jsp";
+			status = "login";
 		}else {
 			message = "ログインできません";
 			url = "Login.jsp";
 		}
 
+		session.setAttribute("status", status);
+		session.setAttribute("userID", userID);
+		request.setAttribute("forward", forward);
 		request.setAttribute("message", message);
 		RequestDispatcher rd = request.getRequestDispatcher(url);
 		rd.forward(request, response);

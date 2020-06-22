@@ -16,16 +16,16 @@ import model.Dao;
 import model.GoodsBean;
 
 /**
- * Servlet implementation class SortSerchServlet
+ * Servlet implementation class DeleteServlet
  */
-@WebServlet("/sort-serch-servlet")
-public class SortSerchServlet extends HttpServlet {
+@WebServlet("/delete-servlet")
+public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SortSerchServlet() {
+    public DeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -47,30 +47,40 @@ public class SortSerchServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		String status = (String)session.getAttribute("status");
-		List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
+		String conf = (String)request.getParameter("conf");
 		String forward = null;
+		String message = null;
+		Dao dao = new Dao();
 
 		if(status == null || status.equals("logout") ) {
 			forward = "Login.jsp";
 		}else if(status.equals("login")) {
-			String sarch = request.getParameter("sarch");
-			String sort = request.getParameter("sort");
+			if(conf.equals("y")){
+				String[] deleteList = request.getParameterValues("goodsName");
+				int count = dao.deleteGoods(deleteList);
+				if(count == 0) {
+					message = "削除に失敗しました";
+				}else {
+					message = count + "件削除しました";
+				}
 
-			Dao dao = new Dao();
-			goodsList = dao.GoodsList(sarch, sort);
+				request.setAttribute("message", message);
+				forward = "test.jsp";
+			}else if(conf.equals("n")) {
+				String[] deleteList = request.getParameterValues("goodsName");
+				String sort = null;
+				List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
+				for(String sarch : deleteList) {
+					List<GoodsBean> gList = dao.GoodsList(sarch, sort);
+					goodsList.add(gList.get(0));
+				}
 
-			String f1 = (String)request.getParameter("forward");
-			String f2 = (String)request.getAttribute("forward");
-			if(f1 == null) {
-				forward = f2;
-			}else if(f2 == null) {
-				forward = f1;
+				request.setAttribute("goodsList", goodsList);
+				forward = "GoodsDeleteDecision.jsp";
 			}
 		}
 
-		request.setAttribute("goodsList", goodsList);
 		RequestDispatcher rd = request.getRequestDispatcher(forward);
 		rd.forward(request, response);
 	}
-
 }

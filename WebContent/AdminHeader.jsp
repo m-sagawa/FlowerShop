@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="javax.servlet.http.HttpSession"%>
 
 <% String header = request.getParameter("header"); %>
 
@@ -13,10 +13,14 @@
 	<%=userID %>さん<br>
 
 	<form action="sort-serch-servlet" method="post">
-	<button name="forward" value="CustomerHome.jsp">Home</button>
+	<button name="forward" value="AdminHome.jsp">Home</button>
 	</form>
 
-	<a href="Cart.jsp"><input type="button" value="MyCart"></a>
+	<a href="GoodsRegistration.jsp"><input type="button" value="新規登録"></a>
+
+	<form action="sort-serch-servlet" method="post">
+	<button name="forward" value="GoodsDelete.jsp">削除</button>
+	</form>
 
 	<form action="logout-servlet" method="post">
 	<input type="submit" value="Logout">
