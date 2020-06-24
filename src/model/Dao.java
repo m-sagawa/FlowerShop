@@ -37,8 +37,8 @@ public class Dao {
 		//GoodsBean goodsBean = new GoodsBean();
 		List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
 		String sql = null;
-		if(sarch == null) {
-			if(sort == null) {
+		if(sarch == null || sarch == "") {
+			if(sort == null || sort == "") {
 				sql = "SELECT * FROM flowerdb.goods";
 				try(Connection con = ConnectionManager.getConnection();
 						PreparedStatement pstmt = con.prepareStatement(sql)){
@@ -55,10 +55,6 @@ public class Dao {
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
 
-						String n = goodsBean.getGoodsName();
-						int p = goodsBean.getGoodsPrice();
-						String i = goodsBean.getGoodsImg();
-
 						goodsList.add(goodsBean);
 					}
 				}catch(ClassNotFoundException | SQLException e) {
@@ -71,7 +67,7 @@ public class Dao {
 					pstmt.setString(1, sort);
 
 					ResultSet res = pstmt.executeQuery();
-					res.beforeFirst();
+
 					while(res.next()) {
 						GoodsBean goodsBean = new GoodsBean();
 						String goodsName = res.getString("goods_name");
@@ -82,10 +78,6 @@ public class Dao {
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
 
-						String n = goodsBean.getGoodsName();
-						int p = goodsBean.getGoodsPrice();
-						String i = goodsBean.getGoodsImg();
-
 						goodsList.add(goodsBean);
 					}
 				}catch(ClassNotFoundException | SQLException e) {
@@ -93,7 +85,7 @@ public class Dao {
 				}
 			}
 		}else {
-			if(sort == null) {
+			if(sort == null || sort == "") {
 				sql = "SELECT * FROM flowerdb.goods WHERE goods_name=?";
 				try(Connection con = ConnectionManager.getConnection();
 						PreparedStatement pstmt = con.prepareStatement(sql)){
@@ -110,10 +102,6 @@ public class Dao {
 						goodsBean.setGoodsName(goodsName);
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
-
-						String n = goodsBean.getGoodsName();
-						int p = goodsBean.getGoodsPrice();
-						String i = goodsBean.getGoodsImg();
 
 						goodsList.add(goodsBean);
 					}
@@ -138,10 +126,6 @@ public class Dao {
 						goodsBean.setGoodsName(goodsName);
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
-
-						String n = goodsBean.getGoodsName();
-						int p = goodsBean.getGoodsPrice();
-						String i = goodsBean.getGoodsImg();
 
 						goodsList.add(goodsBean);
 					}

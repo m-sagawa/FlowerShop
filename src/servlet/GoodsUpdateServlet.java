@@ -87,8 +87,9 @@ public class GoodsUpdateServlet extends HttpServlet {
 						message = "登録に失敗しました";
 					}
 
-					request.setAttribute("message", message);
-					forward ="test.jsp";
+					session.setAttribute("message", message);
+					forward ="sort-serch-servlet";
+					request.setAttribute("forward", "AdminHome.jsp");
 				}else if(conf.equals("n")) {
 					String goodsName = (String)request.getParameter("goodsName");
 					int goodsPrice = Integer.parseInt(request.getParameter("goodsPrice"));

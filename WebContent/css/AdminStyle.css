@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+body{
+	background-color:#FFCC99;
+}
+
+.header{
+	position:fixed;
+	top:0px;
+	left:0px;
+	width:100%;
+	background-color:#CCFFFF;
+}
+
+.inline-block{
+	display:inline-block;
+	padding:10px;
+}
+.main{
+	margin-top:120px;
+	text-align:center;
+}
+
+.error{
+	color:RED;
+}
+
+.button{
+	font-size:16px;
+	font-style:Franklin Gothic Medium;
+	text-align:center;
+}
+
+.message{
+	font-size:20px;
+	font-width:thick;
+	text-align:center;
+}

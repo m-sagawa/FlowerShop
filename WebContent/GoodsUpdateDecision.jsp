@@ -5,13 +5,17 @@
 <head>
 <meta charset="UTF-8">
 <title>商品変更確認画面</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/AdminStyle.css">
 </head>
 <body>
+	<div class="header">
 	<jsp:include page="AdminHeader.jsp">
 		<jsp:param value="header" name="deader" />
 	</jsp:include>
+	</div>
 
-	以下の内容で変更してもよろしいでしょうか<br>
+	<div class="main">
+	<div class="message">以下の内容で変更してもよろしいでしょうか<br></div>
 	<%
 	GoodsBean goodsBean = (GoodsBean)request.getAttribute("goodsBean");
 	String goodsName = goodsBean.getGoodsName();
@@ -27,5 +31,6 @@
 	<form action="sort-serch-servlet" method="post">
 	<button name="forward" value="AdminHome.jsp">キャンセル</button>
 	</form>
+	</div>
 </body>
 </html>

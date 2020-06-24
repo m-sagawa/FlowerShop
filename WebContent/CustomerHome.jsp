@@ -6,20 +6,24 @@
 <head>
 <meta charset="UTF-8">
 <title>顧客ホーム画面</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/CustomerStyle.css">
 </head>
 <body>
+	<div class="header">
 	<jsp:include page="CustomerHeader.jsp">
 		<jsp:param value="header" name="deader" />
 	</jsp:include>
+	</div>
 
+	<div class="main">
 	<form action="sort-serch-servlet" method="post">
 		検索 <input type="text" name="sarch">
 		並び替え <select name="sort">
 			<option value=""></option>
 			<option value="goods_name">商品名</option>
 			<option value="goods_price">価格</option>
-		</select> <input type="submit" value="表示">
+		</select>
+		<button name="forward" value="CustomerHome.jsp">表示</button>
 	</form>
 
 	<%
@@ -29,6 +33,7 @@
 		int goodsPrice = gb.getGoodsPrice();
 		String goodsImg = gb.getGoodsImg();
 	%>
+		<div class="inline-block">
 		<img alt="<%=goodsName %>" src="flower/<%=goodsImg %>" width=200 height=200><br>
 		【<%=goodsName %>】　<%=goodsPrice %>円<br>
 		<form action="cart-servlet" method="post">
@@ -43,8 +48,10 @@
 		</select>
 		<button name="goodsName" value="<%=goodsName %>">カートに入れる</button><br>
 		</form>
+		</div>
 	<%
 	}
 	%>
+	</div>
 </body>
 </html>

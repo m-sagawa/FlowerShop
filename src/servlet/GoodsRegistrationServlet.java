@@ -70,8 +70,9 @@ public class GoodsRegistrationServlet extends HttpServlet {
 				}else {
 					message = "変更に失敗しました";
 				}
-				request.setAttribute("message", message);
-				forward = "AdminHome.jsp";
+				session.setAttribute("message", message);
+				forward = "sort-serch-servlet";
+				request.setAttribute("forward", "AdminHome.jsp");
 			}else if(conf.equals("n")) {
 				request.setAttribute("goodsBean", goodsBean);
 				forward = "GoodsRegistrationDecision.jsp";

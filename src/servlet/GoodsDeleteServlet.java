@@ -18,14 +18,14 @@ import model.GoodsBean;
 /**
  * Servlet implementation class DeleteServlet
  */
-@WebServlet("/delete-servlet")
-public class DeleteServlet extends HttpServlet {
+@WebServlet("/goods-delete-servlet")
+public class GoodsDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteServlet() {
+    public GoodsDeleteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -64,8 +64,9 @@ public class DeleteServlet extends HttpServlet {
 					message = count + "件削除しました";
 				}
 
-				request.setAttribute("message", message);
-				forward = "test.jsp";
+				session.setAttribute("message", message);
+				forward = "sort-serch-servlet";
+				request.setAttribute("forward", "AdminHome.jsp");
 			}else if(conf.equals("n")) {
 				String[] deleteList = request.getParameterValues("goodsName");
 				String sort = null;
