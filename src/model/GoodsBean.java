@@ -6,6 +6,9 @@ public class GoodsBean implements Serializable {
 	private String goodsName;
 	private int goodsPrice;
 	private String goodsImg;
+	private int goodsNumber;
+	private String goodsInfo;
+	private String goodsLang;
 
 	public String getGoodsName() {
 		return goodsName;
@@ -24,5 +27,23 @@ public class GoodsBean implements Serializable {
 	}
 	public void setGoodsImg(String goodsImg) {
 		this.goodsImg = goodsImg;
+	}
+	public int getGoodsNumber() {
+		return goodsNumber;
+	}
+	public void setGoodsNumber(int goodsNumber) {
+		this.goodsNumber = goodsNumber;
+	}
+	public String getGoodsInfo() {
+		return goodsInfo;
+	}
+	public void setGoodsInfo(String goodsInfo) {
+		this.goodsInfo = goodsInfo;
+	}
+	public String getGoodsLang() {
+		return goodsLang;
+	}
+	public void setGoodsLang(String goodsLang) {
+		this.goodsLang = goodsLang;
 	}
 }

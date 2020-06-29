@@ -6,16 +6,31 @@
 <head>
 <meta charset="UTF-8">
 <title>商品削除画面</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/AdminStyle.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/Style.css">
 </head>
 <body>
-	<div class="header">
+	<div class="adminHeader">
 	<jsp:include page="AdminHeader.jsp">
 		<jsp:param value="header" name="deader" />
 	</jsp:include>
 	</div>
 
 	<div class="main">
+	<%
+	String message = (String)request.getAttribute("message");
+	if(message == null){
+		message = "";
+	}
+	%>
+	<div class="message"><%=message %></div>
+	<%
+	String error = (String)request.getAttribute("error");
+	if(error == null){
+		error = "";
+	}
+	%>
+	<div class="error"><%=error %></div>
+
 	<div class="message">削除する項目を選んでください<br></div>
 	<form action="sort-serch-servlet" method="post">
 		検索 <input type="text" name="sarch">
@@ -32,19 +47,21 @@
 		String goodsName = gb.getGoodsName();
 		int goodsPrice = gb.getGoodsPrice();
 		String goodsImg = gb.getGoodsImg();
+		int goodsNumber = gb.getGoodsNumber();
 	%>
+		<form action="goods-delete-servlet" method="post">
 		<div class="inline-block">
 		<img alt="<%=goodsName %>" src="flower/<%=goodsImg %>" width=200 height=200><br>
-		【<%=goodsName %>】　<%=goodsPrice %>円
-		<form action="delete-servlet" method="post">
-		<input type="checkbox" name="goodsName" value="<%=goodsName %>"><br>
-		</form>
+		【<%=goodsName %>】　<%=goodsPrice %>円　在庫：<%=goodsNumber %><br>
+		削除：<input type="checkbox" name="goodsName" value="<%=goodsName %>">
 		</div>
 	<%
 	}
 	%>
-	<form action="goods-delete-servlet" method="post">
-	<button name="conf" value="n">削除</button>
+	<br><button name="conf" value="n">削除</button>
+		</form>
+	<form action="sort-serch-servlet" method="post">
+	<button name="foward" value="AdminHome.jsp">キャンセル</button>
 	</form>
 	</div>
 </body>

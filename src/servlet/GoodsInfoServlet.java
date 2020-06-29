@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,17 +11,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.Dao;
+import model.GoodsBean;
+
 /**
- * Servlet implementation class LogoutServlet
+ * Servlet implementation class GoodsInfoServlet
  */
-@WebServlet("/logout-servlet")
-public class LogoutServlet extends HttpServlet {
+@WebServlet("/goods-info-servlet")
+public class GoodsInfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutServlet() {
+    public GoodsInfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,11 +45,24 @@ public class LogoutServlet extends HttpServlet {
 		//doGet(request, response);
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
-		session.invalidate();
-		String message = "ログアウトしました。またのご利用お待ちしております。";
+		GoodsBean goodsBean = new GoodsBean();
+		Dao dao = new Dao();
+		String status = (String)session.getAttribute("status");
+		String forward = null;
 
-		request.setAttribute("message", message);
-		RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
+		if(status == null || status.equals("logout") ) {
+			forward = "Login.jsp";
+		}else if(status.equals("login")) {
+			String sarch = (String) request.getParameter("goodsName");
+			String sort = null;
+
+			List<GoodsBean> goodsList = dao.GoodsList(sarch, sort);
+			goodsBean = goodsList.get(0);
+			request.setAttribute("goodsBean", goodsBean);
+			forward = "FlowerInfo.jsp";
+		}
+
+		RequestDispatcher rd = request.getRequestDispatcher(forward);
 		rd.forward(request, response);
 	}
 

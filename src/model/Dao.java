@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +51,16 @@ public class Dao {
 						String goodsName = res.getString("goods_name");
 						int goodsPrice = res.getInt("goods_price");
 						String goodsImg = res.getString("goods_img");
+						int goodsNumber = res.getInt("goods_number");
+						String goodsInfo = res.getString("goods_info");
+						String goodsLang = res.getString("goods_lang");
 
 						goodsBean.setGoodsName(goodsName);
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
+						goodsBean.setGoodsNumber(goodsNumber);
+						goodsBean.setGoodsInfo(goodsInfo);
+						goodsBean.setGoodsLang(goodsLang);
 
 						goodsList.add(goodsBean);
 					}
@@ -61,22 +68,30 @@ public class Dao {
 					e.printStackTrace();
 				}
 			}else {
-				sql = "SELECT * FROM flowerdb.goods ORDER BY ?";
+				if(sort.equals("goods_name")) {
+					sql = "SELECT * FROM flowerdb.goods ORDER BY goods_name";
+				}else if(sort.equals("goods_price")) {
+					sql = "SELECT * FROM flowerdb.goods ORDER BY goods_price";
+				}
+
 				try(Connection con = ConnectionManager.getConnection();
-						PreparedStatement pstmt = con.prepareStatement(sql)){
-					pstmt.setString(1, sort);
-
-					ResultSet res = pstmt.executeQuery();
-
+						Statement stmt = con.createStatement();
+						ResultSet res = stmt.executeQuery(sql)){
 					while(res.next()) {
 						GoodsBean goodsBean = new GoodsBean();
 						String goodsName = res.getString("goods_name");
 						int goodsPrice = res.getInt("goods_price");
 						String goodsImg = res.getString("goods_img");
+						int goodsNumber = res.getInt("goods_number");
+						String goodsInfo = res.getString("goods_info");
+						String goodsLang = res.getString("goods_lang");
 
 						goodsBean.setGoodsName(goodsName);
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
+						goodsBean.setGoodsNumber(goodsNumber);
+						goodsBean.setGoodsInfo(goodsInfo);
+						goodsBean.setGoodsLang(goodsLang);
 
 						goodsList.add(goodsBean);
 					}
@@ -98,10 +113,16 @@ public class Dao {
 						String goodsName = res.getString("goods_name");
 						int goodsPrice = res.getInt("goods_price");
 						String goodsImg = res.getString("goods_img");
+						int goodsNumber = res.getInt("goods_number");
+						String goodsInfo = res.getString("goods_info");
+						String goodsLang = res.getString("goods_lang");
 
 						goodsBean.setGoodsName(goodsName);
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
+						goodsBean.setGoodsNumber(goodsNumber);
+						goodsBean.setGoodsInfo(goodsInfo);
+						goodsBean.setGoodsLang(goodsLang);
 
 						goodsList.add(goodsBean);
 					}
@@ -122,10 +143,16 @@ public class Dao {
 						String goodsName = res.getString("goods_name");
 						int goodsPrice = res.getInt("goods_price");
 						String goodsImg = res.getString("goods_img");
+						int goodsNumber = res.getInt("goods_number");
+						String goodsInfo = res.getString("goods_info");
+						String goodsLang = res.getString("goods_lang");
 
 						goodsBean.setGoodsName(goodsName);
 						goodsBean.setGoodsPrice(goodsPrice);
 						goodsBean.setGoodsImg(goodsImg);
+						goodsBean.setGoodsNumber(goodsNumber);
+						goodsBean.setGoodsInfo(goodsInfo);
+						goodsBean.setGoodsLang(goodsLang);
 
 						goodsList.add(goodsBean);
 					}
@@ -139,17 +166,23 @@ public class Dao {
 
 	//商品新規登録
 	public  int registrationGoods(GoodsBean goodsBean) {
-		String sql = "INSERT INTO goods VALUE(?,?,?)";
+		String sql = "INSERT INTO goods VALUE(?,?,?,?,?,?)";
 		int count = 0;
 		String goodsName = goodsBean.getGoodsName();
 		int goodsPrice = goodsBean.getGoodsPrice();
 		String goodsImg = goodsBean.getGoodsImg();
+		int goodsNumber = goodsBean.getGoodsNumber();
+		String goodsInfo = goodsBean.getGoodsInfo();
+		String goodsLang = goodsBean.getGoodsLang();
 
 		try(Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, goodsName);
 			pstmt.setInt(2, goodsPrice);
 			pstmt.setString(3, goodsImg);
+			pstmt.setInt(4, goodsNumber);
+			pstmt.setString(5, goodsInfo);
+			pstmt.setString(6, goodsLang);
 
 			count = pstmt.executeUpdate();
 		}catch(ClassNotFoundException | SQLException e) {
@@ -161,18 +194,24 @@ public class Dao {
 
 	//商品変更
 	public int updateGoods(GoodsBean goodsBean, String goods_name) {
-		String sql = "UPDATE goods SET goods_name=?, goods_price=?, goods_img=? WHERE goods_name=?";
+		String sql = "UPDATE goods SET goods_name=?, goods_price=?, goods_img=?, goods_number=?, goods_info=?, goods_lang=? WHERE goods_name=?";
 		int count = 0;
 		String goodsName = goodsBean.getGoodsName();
 		int goodsPrice = goodsBean.getGoodsPrice();
 		String goodsImg = goodsBean.getGoodsImg();
+		int goodsNumber = goodsBean.getGoodsNumber();
+		String goodsInfo = goodsBean.getGoodsInfo();
+		String goodsLang = goodsBean.getGoodsLang();
 
 		try(Connection con = ConnectionManager.getConnection();
 				PreparedStatement pstmt = con.prepareStatement(sql)){
 			pstmt.setString(1, goodsName);
 			pstmt.setInt(2, goodsPrice);
 			pstmt.setString(3, goodsImg);
-			pstmt.setString(4, goods_name);
+			pstmt.setInt(4, goodsNumber);
+			pstmt.setString(5, goodsInfo);
+			pstmt.setString(6, goodsLang);
+			pstmt.setString(7, goods_name);
 
 			count = pstmt.executeUpdate();
 		}catch(ClassNotFoundException | SQLException e) {
@@ -183,19 +222,36 @@ public class Dao {
 	}
 
 	//商品削除
-	public int deleteGoods(String[] deleteList) {
+	public int deleteGoods(String[] dl) {
 		String sql = "DELETE FROM goods WHERE goods_name=?";
 		int count = 0;
 
-		for(String goodsName : deleteList) {
+		for(String goodsName : dl) {
 			try(Connection con = ConnectionManager.getConnection();
 					PreparedStatement pstmt = con.prepareStatement(sql)){
 				pstmt.setString(1, goodsName);
-				count = pstmt.executeUpdate();
-				count += count;
+				int c = pstmt.executeUpdate();
+				count += c;
 			}catch(ClassNotFoundException | SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		return count;
+	}
+
+	//会員登録
+	public int registrationMember(String user_id, String user_password) {
+		String sql = "INSERT INTO users VALUE(?,?,?)";
+		int count = 0;
+
+		try(Connection con = ConnectionManager.getConnection();
+				PreparedStatement pstmt = con.prepareStatement(sql)){
+			pstmt.setString(1, user_id);
+			pstmt.setString(2, user_password);
+			pstmt.setString(3, "customer");
+			count = pstmt.executeUpdate();
+		}catch(ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
 		}
 		return count;
 	}

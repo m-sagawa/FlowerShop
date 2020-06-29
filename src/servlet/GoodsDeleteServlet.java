@@ -49,38 +49,46 @@ public class GoodsDeleteServlet extends HttpServlet {
 		String status = (String)session.getAttribute("status");
 		String conf = (String)request.getParameter("conf");
 		String forward = null;
+		String error = null;
 		String message = null;
 		Dao dao = new Dao();
+		String[] dl = request.getParameterValues("goodsName");
 
 		if(status == null || status.equals("logout") ) {
 			forward = "Login.jsp";
 		}else if(status.equals("login")) {
-			if(conf.equals("y")){
-				String[] deleteList = request.getParameterValues("goodsName");
-				int count = dao.deleteGoods(deleteList);
-				if(count == 0) {
-					message = "削除に失敗しました";
-				}else {
-					message = count + "件削除しました";
-				}
-
-				session.setAttribute("message", message);
+			if(dl == null) {
+				error = "エラーが起こりました。もう一度やり直してください。";
 				forward = "sort-serch-servlet";
-				request.setAttribute("forward", "AdminHome.jsp");
-			}else if(conf.equals("n")) {
-				String[] deleteList = request.getParameterValues("goodsName");
-				String sort = null;
-				List<GoodsBean> goodsList = new ArrayList<GoodsBean>();
-				for(String sarch : deleteList) {
-					List<GoodsBean> gList = dao.GoodsList(sarch, sort);
-					goodsList.add(gList.get(0));
-				}
+				request.setAttribute("forward", "GoodsDelete.jsp");
+			}else {
+				if(conf.equals("y")){
+					int count = dao.deleteGoods(dl);
+					if(count == 0) {
+						message = "削除に失敗しました";
+					}else {
+						message = count + "件削除しました";
+					}
 
-				request.setAttribute("goodsList", goodsList);
-				forward = "GoodsDeleteDecision.jsp";
+					session.setAttribute("message", message);
+					forward = "sort-serch-servlet";
+					request.setAttribute("forward", "AdminHome.jsp");
+				}else if(conf.equals("n")) {
+					String sort = null;
+					List<GoodsBean> deleteList = new ArrayList<GoodsBean>();
+					for(String sarch : dl) {
+						List<GoodsBean> gList = dao.GoodsList(sarch, sort);
+						deleteList.add(gList.get(0));
+					}
+
+					request.setAttribute("deleteList", deleteList);
+					forward = "GoodsDeleteDecision.jsp";
+				}
 			}
 		}
 
+		request.setAttribute("message", message);
+		request.setAttribute("error", error);
 		RequestDispatcher rd = request.getRequestDispatcher(forward);
 		rd.forward(request, response);
 	}

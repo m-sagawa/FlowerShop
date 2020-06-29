@@ -58,7 +58,7 @@ public class CartServlet extends HttpServlet {
 		}else if(status.equals("login")) {
 			if(conf == null) {
 				String goodsName = (String)request.getParameter("goodsName");
-				int goodsNumber = Integer.parseInt(request.getParameter("goodsNumber"));
+				int goodsBuyNumber = Integer.parseInt(request.getParameter("goodsBuyNumber"));
 				String sort = null;
 				List<CartBean> cartList = (List<CartBean>)session.getAttribute("cartList");
 
@@ -66,7 +66,7 @@ public class CartServlet extends HttpServlet {
 
 				CartBean cartBean = new CartBean();
 				cartBean.setGoodsBean(goodsList.get(0));
-				cartBean.setGoodsNumber(goodsNumber);
+				cartBean.setGoodsBuyNumber(goodsBuyNumber);
 
 				if(cartList == null) {
 					cartList = new ArrayList<CartBean>();
@@ -76,8 +76,21 @@ public class CartServlet extends HttpServlet {
 				session.setAttribute("cartList", cartList);
 				forward = "Cart.jsp";
 			}else if(conf.equals("y")) {
+				List<CartBean> cartList = (List<CartBean>)session.getAttribute("cartList");
+				for(CartBean cb : cartList) {
+					int goodsBuyNumber = cb.getGoodsBuyNumber();
+					GoodsBean goodsBean = cb.getGoodsBean();
+					String goodsName = goodsBean.getGoodsName();
+					int goodsNumber = goodsBean.getGoodsNumber();
+					goodsBean.setGoodsNumber(goodsNumber - goodsBuyNumber);
+
+					dao.updateGoods(goodsBean, goodsName);
+				}
+
+				session.removeAttribute("cartList");
 				message = "ご注文を承りました。商品発送までしばらくお待ちください。";
-				forward = "test.jsp";
+				request.setAttribute("forward", "CustomerHome.jsp");
+				forward = "sort-serch-servlet";
 			}else if(conf.equals("n")) {
 				forward = "CartDecision.jsp";
 			}else if(conf.equals("h")) {
@@ -95,15 +108,24 @@ public class CartServlet extends HttpServlet {
 					cartList.add(i, cartBean);
 				}
 				*/
-				int deleteCart = Integer.parseInt(request.getParameter("deleteCart"));
-				cartList.remove(deleteCart);
+				String[] dc = request.getParameterValues("deleteCart");
+
+				int[] deleteCart = new int[dc.length];
+				for (int i = 0; i < dc.length; i++) {
+					deleteCart[i] = Integer.parseInt(dc[i]);
+				}
+
+				for(int i = deleteCart.length - 1; i >= 0; i--) {
+					int d = deleteCart[i];
+					cartList.remove(d);
+				}
 
 				session.setAttribute("cartList", cartList);
 				forward = "Cart.jsp";
 			}
 		}
 
-		request.setAttribute("message", message);
+		session.setAttribute("message", message);
 		RequestDispatcher rd = request.getRequestDispatcher(forward);
 		rd.forward(request, response);
 	}

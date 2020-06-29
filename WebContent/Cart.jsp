@@ -5,10 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>カート画面</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/css/CustomerStyle.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/Style.css">
 </head>
 <body>
-	<div class="header">
+	<div class="customerHeader">
 	<jsp:include page="CustomerHeader.jsp">
 		<jsp:param value="header" name="deader" />
 	</jsp:include>
@@ -25,12 +25,12 @@
 	int in = 0;
 	for(CartBean cb : cartList){
 		GoodsBean goodsBean = cb.getGoodsBean();
-		int goodsNumber = cb.getGoodsNumber();
+		int goodsBuyNumber = cb.getGoodsBuyNumber();
 
 		String goodsName = goodsBean.getGoodsName();
 		int goodsPrice = goodsBean.getGoodsPrice();
 		String goodsImg = goodsBean.getGoodsImg();
-		int subtotal = goodsPrice * goodsNumber;
+		int subtotal = goodsPrice * goodsBuyNumber;
 		String index = String.valueOf(in);
 	%>
 
@@ -50,7 +50,7 @@
 		%>
 		</select>個<br>
 		--%>
-		個数：<%=goodsNumber %>個<br>
+		個数：<%=goodsBuyNumber %>個<br>
 		小計：<%=subtotal %>円<br>
 
 		カートから削除<input type="checkbox" name="deleteCart" value="<%=index%>"><br>

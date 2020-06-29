@@ -2,7 +2,7 @@ package model;
 
 public class CartBean {
 	private GoodsBean goodsBean;
-	private int goodsNumber;
+	private int goodsBuyNumber;
 
 	public GoodsBean getGoodsBean() {
 		return goodsBean;
@@ -10,10 +10,10 @@ public class CartBean {
 	public void setGoodsBean(GoodsBean goodsBean) {
 		this.goodsBean = goodsBean;
 	}
-	public int getGoodsNumber() {
-		return goodsNumber;
+	public int getGoodsBuyNumber() {
+		return goodsBuyNumber;
 	}
-	public void setGoodsNumber(int goodsNumber) {
-		this.goodsNumber = goodsNumber;
+	public void setGoodsBuyNumber(int goodsBuyNumber) {
+		this.goodsBuyNumber = goodsBuyNumber;
 	}
 }
