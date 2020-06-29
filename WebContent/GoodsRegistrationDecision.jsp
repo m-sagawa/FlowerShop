@@ -47,7 +47,7 @@
 		写真<input type="text" name="goodsImg" value="<%=goodsImg %>" readonly><br>
 		<img alt="<%=goodsName %>" src="flower/<%=goodsImg%>" width=200 hight=200><br>
 		説明文<textarea name="goodsInfo" rows="6" cols="50" readonly><%=goodsInfo %></textarea><br>
-		花言葉<input type="text" name="goodsLang"><br>
+		花言葉<input type="text" name="goodsLang" value="<%=goodsLang %>"><br>
 		<button name="conf" value="y">登録</button>
 	</form>
 	<form action="sort-serch-servlet" method="post">
